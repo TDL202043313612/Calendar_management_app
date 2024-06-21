@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wujiangbo.mapper.system.EasyLoginLogMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.wujiangbo.domain.system.EasyLoginLog">
+        <id column="id" property="id"/>
+        <result column="user_name" property="userName"/>
+        <result column="ipaddr" property="ipaddr"/>
+        <result column="login_location" property="loginLocation"/>
+        <result column="browser" property="browser"/>
+        <result column="os" property="os"/>
+        <result column="msg" property="msg"/>
+        <result column="login_time" property="loginTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, user_name, ipaddr, login_location, browser, os, msg, login_time
+    </sql>
+
+    <select id="selectMyPage" resultType="cn.wujiangbo.domain.system.EasyLoginLog">
+        select
+        t1.*,
+        t2.nick_name as createUserName
+        from easy_login_log t1
+        left join easy_user t2 on t1.user_name = t2.user_name
+        <where>
+            <if test="param.beginTime != null and param.beginTime != '' ">
+                and t1.login_time &gt;= #{param.beginTime}
+            </if>
+            <if test="param.endTime != null and param.endTime != '' ">
+                and t1.login_time &lt;= #{param.endTime}
+            </if>
+            <if test="param.keyword != null and param.keyword != '' ">
+                and t1.user_name like concat('%', #{param.keyword}, '%')
+            </if>
+        </where>
+        order by t1.login_time desc
+    </select>
+</mapper>

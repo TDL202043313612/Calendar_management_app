@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wujiangbo.mapper.system.EasyMessageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.wujiangbo.domain.system.EasyMessage">
+        <id column="id" property="id"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="remark" property="remark"/>
+        <result column="receive_user_id" property="receiveUserId"/>
+        <result column="msg_status" property="msgStatus"/>
+        <result column="msg_content" property="msgContent"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, create_user_id, create_time, remark, receive_user_id, msg_status, msg_content
+    </sql>
+
+    <update id="updateStatus">
+        update easy_message set msg_status = '0' where receive_user_id = #{userId};
+    </update>
+
+    <update id="updateMessageStatus">
+        update easy_message set msg_status = '0' where id = #{id};
+    </update>
+
+    <select id="selectMyPage" resultType="cn.wujiangbo.domain.system.EasyMessage">
+        select
+        t1.*,
+        t2.nick_name as createUserName,
+        t3.nick_name as receiveUserName
+        from easy_message t1
+        left join easy_user t2 on t1.create_user_id = t2.id
+        left join easy_user t3 on t1.receive_user_id = t3.id
+        <where>
+            <if test="param.beginTime != null and param.beginTime != '' ">
+                and t1.create_time &gt;= #{param.beginTime}
+            </if>
+            <if test="param.endTime != null and param.endTime != '' ">
+                and t1.create_time &lt;= #{param.endTime}
+            </if>
+        </where>
+        order by t1.create_time desc
+    </select>
+</mapper>

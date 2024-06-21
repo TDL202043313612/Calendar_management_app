@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wujiangbo.mapper.system.EasyConfigMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.wujiangbo.domain.system.EasyConfig">
+        <id column="id" property="id"/>
+        <result column="config_name" property="configName"/>
+        <result column="config_key" property="configKey"/>
+        <result column="config_value" property="configValue"/>
+        <result column="config_type" property="configType"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, config_name, config_key, config_value, config_type, create_user_id, create_time, update_user_id, update_time, remark
+    </sql>
+
+    <select id="selectMyPage" resultType="cn.wujiangbo.domain.system.EasyConfig">
+        select
+        t1.*,
+        t2.nick_name as updateUserName,
+        t3.nick_name as createUserName
+        from easy_config t1
+        left join easy_user t2 on t1.update_user_id = t2.id
+        left join easy_user t3 on t1.create_user_id = t3.id
+        <where>
+            <if test="param.keyword != null and param.keyword != '' ">
+                or t2.nick_name like CONCAT('%', #{param.keyword}, '%')
+                or t3.nick_name like CONCAT('%', #{param.keyword}, '%')
+            </if>
+        </where>
+        order by t1.update_time desc
+    </select>
+</mapper>

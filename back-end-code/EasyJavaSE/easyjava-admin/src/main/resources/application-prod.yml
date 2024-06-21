@@ -1,0 +1,167 @@
+server:
+  #端口
+  port: 8008
+  http2:
+    enabled: true
+  # tomcat9 参数配置
+  tomcat:
+    uri-encoding: UTF-8
+    # 最大连接数，这个参数是指在同一时间，tomcat能够接受的最大连接数。一般这个值要大于(max-threads)+(accept-count)
+    max-connections: 10000
+    # 最大等待队列长度，当调用Web服务的HTTP请求数达到tomcat的最大线程数时，还有新的HTTP请求到来，这时tomcat会将该请求放在等待队列中，这个acceptCount就是指能够接受的最大等待数，默认100
+    accept-count: 300
+    threads:
+      # 最大线程数，Tomcat可创建的最大工作线程数，默认200, 每一个线程处理一个请求，超过这个请求数后，客户端请求只能排队，等有线程释放才能处理。（4核8g内存，线程数800，一般是 核数*200 。操作系统做线程之间的切换调度是有系统开销的，所以不是越多越好。）
+      max: 500
+      # 最小线程数，最小备用线程数，tomcat启动时的初始化的线程数，默认10。（适当增大一些，以便应对突然增长的访问量）
+      min-spare: 50
+
+system:
+  authorizationCode: C1620520C1B5749E059F0CA43B3B338F435BA326AF1C5E42
+  recordOperationLog: true #是否记录用户的操作日志到数据库（true：记录；false：不记录；）
+
+easyjava:
+  # 获取IP地理位置开关
+  addressEnabled: true
+  # 上传或下载文件时存放临时文件的根目录
+  profile: C://EasyJavaSE//base
+  #备份数据库模式（0：执行mysqldump命令；1：执行bat文件）
+  backup_model: 0
+  #是否定时备份数据库（0：不备份；1：备份）
+  backup_flag: 1
+  #mysqldump所在目录的路径
+  dump_path: C://Program Files (x86)//MySQL//MySQL Server 5.5//bin//mysqldump
+  #需要备份的目标数据库IP地址
+  host_ip: 101.37.167.162
+  #需要备份的目标数据库账号
+  user_name: root
+  #需要备份的目标数据库密码
+  pass_word: ENC(mILmC70DuJVQYI778mZ7xg==)
+  #备份文件存储目录
+  save_path: C://EasyJavaSE//MySQLBackup
+  #需要备份的数据库名称
+  data_base: EasyJavaSE
+  #备份文件的个数
+  sql_count: 30
+  #备份数据库的bat文件路径
+  run_bat_file: C://EasyJavaSE//backup_DB.bat
+  #就业喜报模板图片路径地址
+  goodsnews_path: C://EasyJavaSE//java//goodnews_001.jpg
+
+# netty-socketio相关配置
+socketio:
+  host: 10.0.12.12 #这里必须配置云服务器的内网IP(Linux)
+  port: 8038
+  # 设置最大每帧处理数据的长度，防止他人利用大数据来攻击服务器
+  maxFramePayloadLength: 1048576
+  # 设置http交互最大内容长度
+  maxHttpContentLength: 1048576
+  # socket连接数大小（如只监听一个端口boss线程组为1即可）
+  bossCount: 1
+  workCount: 100
+  allowCustomRequests: true
+  # 协议升级超时时间（毫秒），默认10秒。HTTP握手升级为ws协议超时时间
+  upgradeTimeout: 1000000
+  # Ping消息超时时间（毫秒），默认60秒，这个时间间隔内没有接收到心跳消息就会发送超时事件
+  pingTimeout: 6000000
+  # Ping消息间隔（毫秒），默认25（25000）秒。客户端向服务器发送一条心跳消息间隔，我这里设置10秒
+  pingInterval: 10000
+
+spring:
+  #redis配置
+  redis:
+    # 数据库索引
+    database: 0
+    # 地址
+    host: 127.0.0.1
+    # 端口，默认为6379
+    port: 6379
+    # 密码
+#    password: 123456
+    # 连接超时时间
+    timeout: 30s
+    jedis:
+      pool:
+        time-between-eviction-runs: 1000
+        max-active: 200
+        max-wait: -1ms
+        min-idle: 5
+        max-idle: 20
+  #配置数据库连接信息
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #Linux数据库(生产数据库)
+      url: jdbc:mysql://127.0.0.1:3306/news?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+      username: root
+      password: 123456
+      # 初始连接数
+      initialSize: 5
+      # 最小连接池数量
+      minIdle: 10
+      # 最大连接池数量
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      # 配置一个连接在池中最大生存的时间，单位是毫秒
+      maxEvictableIdleTimeMillis: 900000
+      # 配置检测连接是否有效
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      webStatFilter:
+        enabled: true
+      statViewServlet:
+        enabled: true
+        # 设置白名单，不填则允许所有访问
+        allow:
+        url-pattern: /druid/*
+        # 控制台管理用户名和密码
+        login-username: admin
+        login-password: admin
+      filter:
+        stat:
+          enabled: true
+          # 慢SQL记录
+          log-slow-sql: true
+          slow-sql-millis: 1000
+          merge-sql: true
+        wall:
+          config:
+            multi-statement-allow: true
+
+## 轻量级HTTP客户端框架forest
+forest:
+  # 配置底层API为 okhttp3
+  backend: okhttp3
+  # 连接池最大连接数，默认值为500
+  max-connections: 1000
+  # 每个路由的最大连接数，默认值为500
+  max-route-connections: 500
+  # 请求超时时间，单位为毫秒, 默认值为3000
+  timeout: 7000
+  # 连接超时时间，单位为毫秒, 默认值为2000
+  connect-timeout: 7000
+  # 请求失败后重试次数，默认为0次不重试
+  retry-count: 3
+  # 单向验证的HTTPS的默认SSL协议，默认为SSLv3
+  ssl-protocol: SSLv3
+  # 打开或关闭日志，默认为true
+  logEnabled: true
+  # 打开/关闭Forest请求日志（默认为 true）
+  log-request: true
+  # 打开/关闭Forest响应状态日志（默认为 true）
+  log-response-status: true
+  # 打开/关闭Forest响应内容日志（默认为 false）
+  log-response-content: true
+
+#企业微信相关参数配置
+wechat:
+  notice:
+    key: 0dd8139f-be4e-4972-94ea-6cffa53ad341

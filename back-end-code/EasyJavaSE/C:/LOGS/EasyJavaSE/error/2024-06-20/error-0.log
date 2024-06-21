@@ -1,0 +1,9 @@
+[1fa954b5e6ca406bb000eb8000a5014a] - ERROR 2024-06-20 09:27:24.207 [http-nio-8008-exec-7] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:认证信息已过期，请重新登录！
+[51e0d4d46609474a86a6a949c8d76d6d] - ERROR 2024-06-20 14:59:42.225 [http-nio-8008-exec-4] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[0a03a186e50d485299d0cfbfb0a0ae55] - ERROR 2024-06-20 14:59:50.641 [http-nio-8008-exec-10] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:认证信息已过期，请重新登录！
+[0d90cdeb5a204bbd84067ab5afd49131] - ERROR 2024-06-20 15:00:11.772 [http-nio-8008-exec-14] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[83e0c3ef33b84cacbe0a832a0dc6ba1e] - ERROR 2024-06-20 15:00:25.481 [http-nio-8008-exec-16] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[b4bfbac8e81d4615a7501a43bcd4e3b3] - ERROR 2024-06-20 15:46:56.452 [http-nio-8008-exec-8] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:认证信息已过期，请重新登录！
+[977c755559104064aa748ea65c40bed9] - ERROR 2024-06-20 15:47:17.439 [http-nio-8008-exec-12] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[78302efe3fe448de9fad6c335b508801] - ERROR 2024-06-20 18:55:46.572 [http-nio-8008-exec-4] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:认证信息已过期，请重新登录！
+[be080d502a474bbea74ffd80c8cdd170] - ERROR 2024-06-20 18:55:57.810 [http-nio-8008-exec-9] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！

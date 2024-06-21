@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>EasyJavaSE</artifactId>
+        <groupId>cn.wujiangbo</groupId>
+        <version>1.3.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>easyjava-service</artifactId>
+
+    <dependencies>
+        <!--easyjava-common-->
+        <dependency>
+            <groupId>cn.wujiangbo</groupId>
+            <artifactId>easyjava-common</artifactId>
+            <version>${easy-java.version}</version>
+        </dependency>
+
+        <!--socketio-->
+        <dependency>
+            <groupId>com.corundumstudio.socketio</groupId>
+            <artifactId>netty-socketio</artifactId>
+            <version>1.7.7</version>
+        </dependency>
+
+        <!-- http请求工具 -->
+        <dependency>
+            <groupId>com.dtflys.forest</groupId>
+            <artifactId>forest-spring-boot-starter</artifactId>
+            <version>1.5.14</version>
+        </dependency>
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wujiangbo.mapper.system.EasyDeptMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.wujiangbo.domain.system.EasyDept">
+        <id column="id" property="id"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="ancestors" property="ancestors"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="leader" property="leader"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="status" property="status"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, parent_id, ancestors, dept_name, order_num, leader, phone, email, status, del_flag, create_user_id, create_time, update_user_id, update_time
+    </sql>
+
+    <sql id="selectDeptVo">
+        select d.id, d.parent_id, d.ancestors, d.dept_name, d.order_num, d.leader, d.phone, d.email, d.status, d.del_flag, d.create_user_id, d.create_time, d.update_user_id, d.update_time
+        from easy_dept d
+    </sql>
+    <update id="updateDeptChildren" parameterType="java.util.List">
+        update easy_dept set ancestors =
+        <foreach collection="depts" item="item" index="index" separator=" " open="case id" close="end">
+            when #{item.id} then #{item.ancestors}
+        </foreach>
+        where id in
+        <foreach collection="depts" item="item" index="index" separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
+
+    <update id="updateDeptStatusNormal" parameterType="java.lang.Long">
+        update easy_dept set status = '0' where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <delete id="removeBatchDept">
+        delete from easy_dept where ancestors like concat('%', #{id}, '%')
+    </delete>
+
+    <select id="deptList" parameterType="cn.wujiangbo.query.system.EasyDeptQuery" resultType="cn.wujiangbo.domain.system.EasyDept">
+        select
+        t1.*,
+        t2.nick_name as updateUserName,
+        t3.nick_name as createUserName
+        from easy_dept t1
+        left join easy_user t2 on t1.update_user_id = t2.id
+        left join easy_user t3 on t1.create_user_id = t3.id
+        <where>
+            <if test="deptName != null and deptName != '' ">
+                or t1.dept_name like CONCAT('%', #{deptName}, '%')
+            </if>
+            <if test="status != null and status != '' ">
+                or t1.status like CONCAT('%', #{status}, '%')
+            </if>
+        </where>
+        order by t1.order_num asc
+    </select>
+
+    <select id="checkDeptNameUnique" resultType="cn.wujiangbo.domain.system.EasyDept">
+        <include refid="selectDeptVo"/>
+        where dept_name = #{deptName} and parent_id = #{parentId} limit 1
+    </select>
+
+    <select id="selectNormalChildrenDeptById" parameterType="java.lang.Long" resultType="int">
+        select count(*) from easy_dept where status = 0 and del_flag = '0' and find_in_set(#{deptId}, ancestors)
+    </select>
+
+    <select id="selectMyPage" resultType="cn.wujiangbo.domain.system.EasyDept">
+        select
+        t1.*,
+        t2.nick_name as updateUserName,
+        t3.nick_name as createUserName
+        from easy_dept t1
+        left join easy_user t2 on t1.update_user_id = t2.id
+        left join easy_user t3 on t1.create_user_id = t3.id
+        <where>
+            <if test="param.keyword != null and param.keyword != '' ">
+                or t2.nick_name like CONCAT('%', #{param.keyword}, '%')
+                or t3.nick_name like CONCAT('%', #{param.keyword}, '%')
+            </if>
+        </where>
+        order by t1.update_time desc
+    </select>
+    <select id="selectDeptList" resultType="cn.wujiangbo.domain.system.EasyDept">
+        select d.*, u1.nick_name as createUserName, u2.nick_name as updateUserName
+        from easy_dept d
+        left join easy_user u1 on d.create_user_id = u1.id
+        left join easy_user u2 on d.update_user_id = u2.id
+        <if test="deptId != null and deptId != 0">
+            AND d.id = #{deptId}
+        </if>
+        <if test="parentId != null and parentId != 0">
+            AND d.parent_id = #{parentId}
+        </if>
+        <if test="deptName != null and deptName != ''">
+            AND d.dept_name like concat('%', #{deptName}, '%')
+        </if>
+        <if test="status != null and status != ''">
+            AND d.status = #{status}
+        </if>
+        <if test="delFlag != null and delFlag != ''">
+            AND d.del_flag = #{delFlag}
+        </if>
+        order by d.parent_id, d.order_num
+    </select>
+
+    <select id="selectDeptById" resultType="cn.wujiangbo.domain.system.EasyDept">
+        <include refid="selectDeptVo"/>
+        where id = #{deptId}
+    </select>
+    <select id="selectChildrenDeptById" resultType="cn.wujiangbo.domain.system.EasyDept">
+        select * from easy_dept where find_in_set(#{deptId}, ancestors)
+    </select>
+
+    <!--查询部门用户信息-->
+    <select id="selectDeptUserList" resultType="cn.wujiangbo.dto.system.DeptUserDto">
+        select t1.id, t1.parent_id, t1.dept_name, 'true' as isDisabled from easy_dept t1
+        WHERE t1.`status` = '0' and t1.del_flag = '0'
+        union all
+        select u.emp_no, u.dept_id as parent_id, u.nick_name as dept_name, 'false' as isDisabled from easy_user u
+        where u.`status` = '0' and u.del_flag = '0'
+    </select>
+</mapper>

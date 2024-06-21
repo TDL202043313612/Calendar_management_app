@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>EasyJavaSE</artifactId>
+        <groupId>cn.wujiangbo</groupId>
+        <version>1.3.1</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>easyjava-admin</artifactId>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>cn.wujiangbo</groupId>
+            <artifactId>easyjava-common</artifactId>
+            <version>${easy-java.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>cn.wujiangbo</groupId>
+            <artifactId>easyjava-service</artifactId>
+            <version>${easy-java.version}</version>
+        </dependency>
+
+        <!--jackson-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+
+        <!--监测服务器相关信息需要用到的依赖-->
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna</artifactId>
+            <version>5.5.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jna-5.5.0.jar</systemPath>
+        </dependency>
+
+        <dependency>
+            <groupId>net.java.dev.jna</groupId>
+            <artifactId>jna-platform</artifactId>
+            <version>5.5.0</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jna-platform-5.5.0.jar</systemPath>
+        </dependency>
+
+        <!--slf4j日志写入数据库的依赖-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.7</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.3.5.RELEASE</version>
+                <!--如果想打成一个包，就注释掉下面的 configuration 部分-->
+                <!--<configuration>
+                    &lt;!&ndash;自己手动导入的jar包也需要打包&ndash;&gt;
+                    <includeSystemScope>true</includeSystemScope>
+                    <executable>true</executable>
+                    <layout>ZIP</layout>
+                    &lt;!&ndash;不打包依赖&ndash;&gt;
+                    <includes>
+                        <include>
+                            <groupId>nothing</groupId>
+                            <artifactId>nothing</artifactId>
+                        </include>
+                    </includes>
+                </configuration>-->
+            </plugin>
+
+            <!--将依赖的jar文件copy到lib目录-->
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            &lt;!&ndash;指定路径&ndash;&gt;
+                            <outputDirectory>
+                                ${project.build.directory}/lib
+                            </outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.12.4</version>
+                <configuration>
+                    <!--测试包下的代码出错不影响项目的编译-->
+                    <testFailureIgnore>true</testFailureIgnore>
+                    <!--跳过测试包代码-->
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <finalName>EasyJavaSE</finalName>
+    </build>
+
+</project>

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wujiangbo.mapper.system.EasyMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.wujiangbo.domain.system.EasyMenu">
+        <id column="id" property="id"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="parent_id" property="parentId"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="path" property="path"/>
+        <result column="component" property="component"/>
+        <result column="query" property="query"/>
+        <result column="is_frame" property="isFrame"/>
+        <result column="is_cache" property="isCache"/>
+        <result column="menu_type" property="menuType"/>
+        <result column="visible" property="visible"/>
+        <result column="status" property="status"/>
+        <result column="perms" property="perms"/>
+        <result column="icon" property="icon"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, menu_name, parent_id, order_num, path, component, query, is_frame, is_cache, menu_type, visible, status, perms, icon, create_user_id, create_time, update_user_id, update_time, remark
+    </sql>
+
+    <delete id="deleteRoleMenu">
+        delete from easy_role_menu where menu_id = #{menuId}
+    </delete>
+
+    <select id="hasChildByMenuId" resultType="java.lang.Integer">
+        select count(1) from easy_menu where parent_id = #{menuId}
+    </select>
+
+    <select id="checkMenuNameUnique" resultType="cn.wujiangbo.domain.system.EasyMenu">
+        select id, menu_name, parent_id, order_num, path, component, query, is_frame, is_cache, menu_type, visible, status, ifnull(perms,'') as perms, icon, create_time
+        from easy_menu
+        where menu_name = #{menuName} and parent_id = #{parentId} limit 1
+    </select>
+
+    <select id="selectMyPage" resultType="cn.wujiangbo.domain.system.EasyMenu">
+        select
+        t1.*,
+        t2.nick_name as updateUserName,
+        t3.nick_name as createUserName
+        from easy_menu t1
+        left join easy_user t2 on t1.update_user_id = t2.id
+        left join easy_user t3 on t1.create_user_id = t3.id
+        <where>
+            <if test="param.keyword != null and param.keyword != '' ">
+                or t2.nick_name like CONCAT('%', #{param.keyword}, '%')
+                or t3.nick_name like CONCAT('%', #{param.keyword}, '%')
+            </if>
+        </where>
+        order by t1.update_time desc
+    </select>
+
+    <select id="selectMenuTreeByUserId" parameterType="java.lang.Long" resultType="cn.wujiangbo.domain.system.EasyMenu">
+        select distinct m.id, m.parent_id, m.menu_name, m.path, m.component, m.`query`, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time
+        from easy_menu m
+                 left join easy_role_menu rm on m.id = rm.menu_id
+                 left join easy_user_role ur on rm.role_id = ur.role_id
+                 left join easy_role ro on ur.role_id = ro.id
+                 left join easy_user u on ur.user_id = u.id
+        where u.id = #{userId} and m.menu_type in ('M', 'C') and m.status = 0  AND ro.status = 0
+        order by m.parent_id, m.order_num
+    </select>
+    <select id="selectMenuPermsByUserId" resultType="java.lang.String">
+        select distinct m.perms
+        from easy_menu m
+                 left join easy_role_menu rm on m.id = rm.menu_id
+                 left join easy_user_role ur on rm.role_id = ur.role_id
+                 left join easy_role r on r.id = ur.role_id
+        where m.status = '0' and r.status = '0' and ur.user_id = #{userId} and m.perms is not null and m.perms != ''
+    </select>
+    <select id="selectMenuListByUserId" resultType="cn.wujiangbo.domain.system.EasyMenu" resultMap="BaseResultMap">
+        select distinct m.id, m.parent_id, m.menu_name, m.path, m.component, m.query, m.visible, m.status, ifnull(m.perms,'') as perms, m.is_frame, m.is_cache, m.menu_type, m.icon, m.order_num, m.create_time, m.create_user_id,m.update_time,m.update_user_id, eu1.nick_name as createUserName, eu2.nick_name as updateUserName
+        from easy_menu m
+        left join easy_role_menu rm on m.id = rm.menu_id
+        left join easy_user_role ur on rm.role_id = ur.role_id
+        left join easy_role ro on ur.role_id = ro.id
+        left join easy_user eu1 on m.create_user_id = eu1.id
+        left join easy_user eu2 on m.update_user_id = eu2.id
+        <where>
+            <if test="userId != null">
+                AND ur.user_id = #{userId}
+            </if>
+            <if test="menuName != null and menuName != ''">
+                AND m.menu_name like concat('%', #{menuName}, '%')
+            </if>
+            <if test="visible != null and visible != ''">
+                AND m.visible = #{visible}
+            </if>
+            <if test="status != null and status != ''">
+                AND m.status = #{status}
+            </if>
+        </where>
+        order by m.parent_id, m.order_num
+    </select>
+    <select id="selectMenuListByRoleId" resultType="java.lang.Integer">
+        select m.id
+        from easy_menu m
+        left join easy_role_menu rm on m.id = rm.menu_id
+        where rm.role_id = #{roleId}
+        <if test="menuCheckStrictly">
+            and m.id not in (select m.parent_id from easy_menu m inner join easy_role_menu rm on m.id = rm.menu_id and rm.role_id = #{roleId})
+        </if>
+        order by m.parent_id, m.order_num
+    </select>
+
+    <select id="selectAllPerms" resultType="java.lang.String">
+        select distinct m.perms
+        from easy_menu m
+        where m.status = '0' and visible = '0' and m.perms is not null and m.perms != ''
+    </select>
+</mapper>

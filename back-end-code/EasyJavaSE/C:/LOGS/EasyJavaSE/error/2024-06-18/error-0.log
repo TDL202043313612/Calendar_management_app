@@ -1,0 +1,88 @@
+[f39631d669a140cab3399ee6e12789f6] - ERROR 2024-06-18 15:40:18.867 [http-nio-8008-exec-18] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[e6d42add59994a67aeec929f9fa5606c] - ERROR 2024-06-18 15:40:24.942 [http-nio-8008-exec-20] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[8cc7b2b68ebb42eb9ea1efd35dd627e4] - ERROR 2024-06-18 15:40:35.886 [http-nio-8008-exec-23] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[fa38fe68908c42759ff2fd35b6e6bd6f] - ERROR 2024-06-18 15:46:27.100 [http-nio-8008-exec-24] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[6ef203bfe38b4a3f89b9302cbdb6a4cc] - ERROR 2024-06-18 15:48:16.815 [http-nio-8008-exec-26] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[6bc4d1bcc4694a4c848915680e4b8606] - ERROR 2024-06-18 15:48:36.162 [http-nio-8008-exec-28] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[c2cba310745e44c0b3b776f14a03f2ff] - ERROR 2024-06-18 15:49:52.852 [http-nio-8008-exec-30] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[b12adbd65e61447c9fb8405594005b94] - ERROR 2024-06-18 15:57:07.033 [http-nio-8008-exec-32] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[ba221c9a32bb43b6a065cfa7b89ae669] - ERROR 2024-06-18 15:57:14.605 [http-nio-8008-exec-35] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[] - ERROR 2024-06-18 15:58:17.826 [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter.report：40：
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'spring.datasource.druid.password' to java.lang.String:
+
+    Reason: Failed to bind properties under 'spring.datasource.druid.password' to java.lang.String
+
+Action:
+
+Update your application's configuration
+
+[] - ERROR 2024-06-18 15:58:43.124 [main] org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter.report：40：
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to bind properties under 'spring.datasource.druid.password' to java.lang.String:
+
+    Reason: Failed to bind properties under 'spring.datasource.druid.password' to java.lang.String
+
+Action:
+
+Update your application's configuration
+
+[671f975c1aa64da48f6527985f3d94e1] - ERROR 2024-06-18 16:00:31.754 [http-nio-8008-exec-1] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[321b741f0b0d4f0483ba2367e5070b6a] - ERROR 2024-06-18 16:07:10.228 [http-nio-8008-exec-3] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[6a432705fd8b44f19132fa7f06bf04e6] - ERROR 2024-06-18 16:07:15.406 [http-nio-8008-exec-5] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[266731f700cd4347815e3172da950886] - ERROR 2024-06-18 16:35:07.830 [http-nio-8008-exec-13] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[2c43db4efd7d4a9e8662452fc4b4d8a4] - ERROR 2024-06-18 16:36:57.217 [http-nio-8008-exec-19] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[2e2adc3451b4414fa39ba8ec9c215aed] - ERROR 2024-06-18 16:43:19.666 [http-nio-8008-exec-21] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[effd94681d514fd09b2dac7fe9c329c5] - ERROR 2024-06-18 16:43:25.430 [http-nio-8008-exec-23] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[33aa303a83174f488597203e9790ade0] - ERROR 2024-06-18 16:43:35.087 [http-nio-8008-exec-25] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[65183fe65fa84abc8d2612abd32bc064] - ERROR 2024-06-18 16:45:08.150 [http-nio-8008-exec-28] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[61e7fa05eca44afb8a930ad1efa602de] - ERROR 2024-06-18 16:46:22.404 [http-nio-8008-exec-29] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[fabe337a0e7048fab2502f6d81d6d700] - ERROR 2024-06-18 16:46:32.303 [http-nio-8008-exec-31] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[8017610bdd2647edb36e652a639db3ed] - ERROR 2024-06-18 16:55:27.664 [http-nio-8008-exec-39] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[99756cb982a4402eb3b6f0d5a7515b64] - ERROR 2024-06-18 16:56:13.416 [http-nio-8008-exec-48] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:认证信息已过期，请重新登录！
+[c1e5aaaf92874b17a44502e7df8f1e23] - ERROR 2024-06-18 16:56:21.711 [http-nio-8008-exec-2] cn.wujiangbo.aspectj.MyLogAspect.handleMyLog：137：异常信息:您没有权限进行此操作！
+[8d781a3c-ee7a-4338-a8ea-bcaa194873c0] - ERROR 2024-06-18 17:55:13.721 [asyncBobo1] org.springframework.aop.interceptor.SimpleAsyncUncaughtExceptionHandler.handleUncaughtException：39：Unexpected exception occurred invoking async method: public void cn.wujiangbo.service.system.EasySlf4jLoggingService.asyncSave(cn.wujiangbo.domain.system.EasySlf4jLogging)
+org.springframework.transaction.CannotCreateTransactionException: Could not open JDBC Connection for transaction; nested exception is java.sql.SQLException
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doBegin(DataSourceTransactionManager.java:305)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.startTransaction(AbstractPlatformTransactionManager.java:400)
+	at org.springframework.transaction.support.AbstractPlatformTransactionManager.getTransaction(AbstractPlatformTransactionManager.java:373)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.createTransactionIfNecessary(TransactionAspectSupport.java:574)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:361)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:118)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:186)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.proceed(CglibAopProxy.java:749)
+	at org.springframework.aop.interceptor.AsyncExecutionInterceptor.lambda$invoke$0(AsyncExecutionInterceptor.java:115)
+	at cn.wujiangbo.config.threadPool.ThreadMdcUtil.lambda$wrap$0(ThreadMdcUtil.java:40)
+	at java.util.concurrent.FutureTask.run(FutureTask.java:266)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at java.lang.Thread.run(Thread.java:750)
+Caused by: java.sql.SQLException: null
+	at com.alibaba.druid.pool.DruidDataSource.getConnectionInternal(DruidDataSource.java:1707)
+	at com.alibaba.druid.pool.DruidDataSource.getConnectionDirect(DruidDataSource.java:1427)
+	at com.alibaba.druid.filter.FilterChainImpl.dataSource_connect(FilterChainImpl.java:5059)
+	at com.alibaba.druid.filter.stat.StatFilter.dataSource_getConnection(StatFilter.java:726)
+	at com.alibaba.druid.filter.FilterChainImpl.dataSource_connect(FilterChainImpl.java:5055)
+	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:1405)
+	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:1397)
+	at com.alibaba.druid.pool.DruidDataSource.getConnection(DruidDataSource.java:100)
+	at org.springframework.jdbc.datasource.DataSourceTransactionManager.doBegin(DataSourceTransactionManager.java:261)
+	... 13 common frames omitted
+Caused by: java.lang.InterruptedException: null
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.reportInterruptAfterWait(AbstractQueuedSynchronizer.java:2014)
+	at java.util.concurrent.locks.AbstractQueuedSynchronizer$ConditionObject.awaitNanos(AbstractQueuedSynchronizer.java:2088)
+	at com.alibaba.druid.pool.DruidDataSource.pollLast(DruidDataSource.java:2269)
+	at com.alibaba.druid.pool.DruidDataSource.getConnectionInternal(DruidDataSource.java:1688)
+	... 21 common frames omitted

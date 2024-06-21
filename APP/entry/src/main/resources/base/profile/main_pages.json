@@ -1,0 +1,24 @@
+{
+  "src": [
+    "pages/Index",
+    "pages/TaskPage",
+    "pages/MoneyPage",
+    "pages/NewsPage",
+    "pages/MemoPage",
+    "pages/addTask",
+    "pages/addMoney",
+    "pages/NewsDetails",
+    "pages/LinkmanPage",
+    "pages/addLinkman",
+    "pages/addMemo",
+    "pages/Register",
+    "pages/Login",
+    "pages/Home",
+    "pages/Page002",
+    "pages/Page003",
+    "pages/Page004",
+    "pages/UserCenter",
+    "pages/WeatherPage",
+    "pages/MoneyChart"
+  ]
+}

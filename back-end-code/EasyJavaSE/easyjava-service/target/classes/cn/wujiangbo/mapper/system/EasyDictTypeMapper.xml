@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wujiangbo.mapper.system.EasyDictTypeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.wujiangbo.domain.system.EasyDictType">
+        <id column="id" property="id"/>
+        <result column="dict_name" property="dictName"/>
+        <result column="dict_type" property="dictType"/>
+        <result column="status" property="status"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, dict_name, dict_type, status, create_user_id, create_time, update_user_id, update_time, remark
+    </sql>
+
+    <select id="selectMyPage" resultType="cn.wujiangbo.domain.system.EasyDictType">
+        select
+        t1.*,
+        t2.nick_name as updateUserName,
+        t3.nick_name as createUserName
+        from easy_dict_type t1
+        left join easy_user t2 on t1.update_user_id = t2.id
+        left join easy_user t3 on t1.create_user_id = t3.id
+        <where>
+            <if test="param.dictType != null and param.dictType != '' ">
+                or t1.dict_type like CONCAT('%', #{param.dictType}, '%')
+            </if>
+            <if test="param.dictName != null and param.dictName != '' ">
+                or t1.dict_name like CONCAT('%', #{param.dictName}, '%')
+            </if>
+            <if test="param.status != null and param.status != '' ">
+                and t1.status = #{param.status}
+            </if>
+            <if test="param.beginTime != null and param.beginTime != '' ">
+                and t1.update_time &gt;= #{param.beginTime}
+            </if>
+            <if test="param.endTime != null and param.endTime != '' ">
+                and t1.update_time &lt;= #{param.endTime}
+            </if>
+        </where>
+        order by t1.update_time desc
+    </select>
+</mapper>

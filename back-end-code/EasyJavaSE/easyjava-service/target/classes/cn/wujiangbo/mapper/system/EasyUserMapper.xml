@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wujiangbo.mapper.system.EasyUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.wujiangbo.domain.system.EasyUser">
+        <id column="id" property="id"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="user_name" property="userName"/>
+        <result column="nick_name" property="nickName"/>
+        <result column="user_type" property="userType"/>
+        <result column="email" property="email"/>
+        <result column="phonenumber" property="phonenumber"/>
+        <result column="sex" property="sex"/>
+        <result column="avatar" property="avatar"/>
+        <result column="password" property="password"/>
+        <result column="status" property="status"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="login_ip" property="loginIp"/>
+        <result column="login_date" property="loginDate"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="createUserName" property="createUserName"/>
+        <result column="updateUserName" property="updateUserName"/>
+        <result column="postName" property="postName"/>
+        <result column="remark" property="remark"/>
+        <result column="emp_no" property="empNo"/>
+        <association property="dept"    column="dept_id" javaType="cn.wujiangbo.domain.system.EasyDept" resultMap="deptResult" />
+        <collection  property="roles"   javaType="java.util.List"  resultMap="RoleResult" />
+    </resultMap>
+
+    <resultMap id="deptResult" type="cn.wujiangbo.domain.system.EasyDept">
+        <id     property="id"    column="dept_id"     />
+        <result property="parentId"  column="parent_id"   />
+        <result property="deptName"  column="dept_name"   />
+        <result property="ancestors" column="ancestors"   />
+        <result property="orderNum"  column="order_num"   />
+        <result property="leader"    column="leader"      />
+        <result property="status"    column="dept_status" />
+    </resultMap>
+
+    <resultMap id="RoleResult" type="cn.wujiangbo.domain.system.EasyRole">
+        <id     property="id"       column="role_id"        />
+        <result property="roleName"     column="role_name"      />
+        <result property="roleKey"      column="role_key"       />
+        <result property="roleSort"     column="role_sort"      />
+        <result property="dataScope"     column="data_scope"    />
+        <result property="status"       column="role_status"    />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, dept_id, user_name, nick_name, user_type, email, phonenumber, sex, avatar, password, status, del_flag, login_ip, login_date, create_user_id, create_time, update_user_id, update_time, remark, emp_no
+    </sql>
+
+    <!--查询最大的员工编号-->
+    <select id="selectMaxEmpNo" resultType="cn.wujiangbo.domain.system.EasyUser">
+        select id, emp_no from easy_user order by id desc limit 1
+    </select>
+
+    <insert id="batchUserPost">
+        insert into easy_user_post(user_id, post_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.userId},#{item.postId})
+        </foreach>
+    </insert>
+
+    <insert id="batchUserRole">
+        insert into easy_user_role(user_id, role_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.userId},#{item.roleId})
+        </foreach>
+    </insert>
+
+    <update id="updateUser" parameterType="cn.wujiangbo.domain.system.EasyUser">
+        update easy_user
+        <set>
+            <if test="deptId != null and deptId != 0">dept_id = #{deptId},</if>
+            <if test="userName != null and userName != ''">user_name = #{userName},</if>
+            <if test="nickName != null and nickName != ''">nick_name = #{nickName},</if>
+            <if test="email != null ">email = #{email},</if>
+            <if test="phonenumber != null ">phonenumber = #{phonenumber},</if>
+            <if test="sex != null and sex != ''">sex = #{sex},</if>
+            <if test="avatar != null and avatar != ''">avatar = #{avatar},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="status != null and status != ''">status = #{status},</if>
+            <if test="loginIp != null and loginIp != ''">login_ip = #{loginIp},</if>
+            <if test="loginDate != null">login_date = #{loginDate},</if>
+            <if test="updateUserId != null and updateUserId != ''">update_user_id = #{updateUserId},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null and remark != ''">remark = #{remark},</if>
+            <if test="empNo != null and empNo != ''">emp_no = #{empNo},</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateUserAvatar">
+        update easy_user set avatar = #{avatar} where id = #{userId}
+    </update>
+
+    <delete id="deleteUserRole" parameterType="java.lang.Long">
+        delete from easy_user_role where user_id in
+        <foreach collection="array" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteUserPost" parameterType="java.lang.Long">
+        delete from easy_user_post where user_id in
+        <foreach collection="array" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteUserByIds" parameterType="java.lang.Long">
+        update easy_user set del_flag = '2' where id in
+        <foreach collection="array" item="userId" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteUserRoleByUserId" parameterType="java.lang.Long">
+        delete from easy_user_role where user_id=#{userId}
+    </delete>
+
+    <delete id="deleteUserPostByUserId" parameterType="java.lang.Long">
+        delete from easy_user_post where user_id=#{userId}
+    </delete>
+
+    <select id="checkUserNameUnique" parameterType="java.lang.String" resultType="int">
+        select count(1) from easy_user where user_name = #{userName} limit 1
+    </select>
+
+    <select id="checkPhoneUnique" parameterType="java.lang.String" resultType="cn.wujiangbo.domain.system.EasyUser">
+        select id, phonenumber from easy_user where phonenumber = #{phonenumber} limit 1
+    </select>
+
+    <select id="checkEmailUnique" parameterType="java.lang.String" resultType="cn.wujiangbo.domain.system.EasyUser">
+        select id, email from easy_user where email = #{email} limit 1
+    </select>
+
+    <select id="selectMyPage" resultMap="BaseResultMap">
+        select u.*,
+        t2.nick_name as updateUserName,
+        t3.nick_name as createUserName,
+        t5.id as postId,
+        t5.post_name as postName,
+        d.parent_id, d.ancestors, d.dept_name, d.order_num, d.leader, d.status as dept_status,
+        r.id as role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
+        from easy_user u
+        left join easy_dept d on u.dept_id = d.id
+        left join easy_user_role ur on u.id = ur.user_id
+        left join easy_role r on r.id = ur.role_id
+        left join easy_user t2 on u.update_user_id = t2.id
+        left join easy_user t3 on u.create_user_id = t3.id
+        left join easy_user_post t4 on u.id = t4.user_id
+        left join easy_post t5 on t4.post_id = t5.id
+        where u.del_flag = '0'
+            <if test="param.userName != null and param.userName != '' ">
+                and (u.nick_name like CONCAT('%', #{param.userName}, '%')
+                or u.user_name like CONCAT('%', #{param.userName}, '%'))
+            </if>
+            <if test="param.phonenumber != null and param.phonenumber != '' ">
+                and u.phonenumber like CONCAT('%', #{param.phonenumber}, '%')
+            </if>
+            <if test="param.status != null and param.status != '' ">
+                and u.status = #{param.status}
+            </if>
+            <if test="param.deptId != null">
+                and u.dept_id = #{param.deptId}
+            </if>
+            <if test="param.beginTime != null and param.beginTime != '' ">
+                and u.create_time &gt;= #{param.beginTime}
+            </if>
+            <if test="param.endTime != null and param.endTime != '' ">
+                and u.create_time &lt;= #{param.endTime}
+            </if>
+        order by u.update_time desc
+    </select>
+
+    <select id="selectUserById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+        select u.*,
+               d.id as dept_id, d.parent_id, d.ancestors, d.dept_name, d.order_num, d.leader, d.status as dept_status,
+               r.id as role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
+        from easy_user u
+                 left join easy_dept d on u.dept_id = d.id
+                 left join easy_user_role ur on u.id = ur.user_id
+                 left join easy_role r on r.id = ur.role_id
+        where u.id = #{userId}
+    </select>
+
+    <select id="selectUserByUserName" resultType="cn.wujiangbo.domain.system.EasyUser"
+            parameterType="java.lang.String">
+        select u.*, ed.dept_name as deptName from easy_user u
+            left join easy_dept ed on u.dept_id = ed.id
+        where u.user_name = #{userName}
+    </select>
+    <select id="getOnlineUserIdList" resultType="cn.wujiangbo.vo.system.OnlineUserVO">
+        SELECT
+        t1.id as userId,
+        t1.user_name as userName,
+        t1.nick_name as nickName,
+        t1.phonenumber as phone,
+        t1.email as email,
+        t1.login_ip as loginIp,
+        t1.login_date as loginDate
+        from easy_user t1
+        where t1.id in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        order by t1.login_date desc
+
+    </select>
+    <select id="getDeptUserTree" resultType="cn.wujiangbo.dto.system.DeptUserTreeDto">
+        select t1.id as id, t1.dept_name as name, t1.parent_id as parentId, 0 as type, t1.order_num as orderNum from easy_dept t1 where t1.del_flag = 0
+        union all
+        select t2.id, t2.nick_name as name, t2.dept_id as parentId, 1 as type, t2.id as orderNum from easy_user t2 where t2.del_flag = 0
+    </select>
+
+    <select id="selectUserByEmpNo" resultType="cn.wujiangbo.domain.system.EasyUser"
+            parameterType="java.lang.String">
+        select u.*,
+               d.id as dept_id, d.parent_id, d.ancestors, d.dept_name, d.order_num, d.leader, d.status as dept_status,
+               r.id as role_id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.status as role_status
+        from easy_user u
+                 left join easy_dept d on u.dept_id = d.id
+                 left join easy_user_role ur on u.id = ur.user_id
+                 left join easy_role r on r.id = ur.role_id
+        where u.emp_no = #{empNo}
+    </select>
+
+    <select id="selectUserNameListByEmpNo" resultType="java.lang.String">
+        SELECT
+        t1.nick_name
+        from easy_user t1
+        where t1.emp_no in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="selectUserRoleIdsByUserId" resultType="java.lang.Long">
+        select DISTINCT t2.role_id from easy_user u
+        left join easy_user_role t2 on u.id = t2.user_id
+        where u.id = #{userId}
+    </select>
+    <select id="selectRoleIdByUserId" resultType="java.lang.Integer">
+        select role_id from easy_user_role where user_id = #{userId}
+    </select>
+</mapper>

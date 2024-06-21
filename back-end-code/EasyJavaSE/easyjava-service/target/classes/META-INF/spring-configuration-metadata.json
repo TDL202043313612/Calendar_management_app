@@ -1,0 +1,52 @@
+{
+  "groups": [
+    {
+      "name": "socketio",
+      "type": "cn.wujiangbo.service.websocket.SocketProperties",
+      "sourceType": "cn.wujiangbo.service.websocket.SocketProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "socketio.allow-custom-requests",
+      "type": "java.lang.Boolean",
+      "sourceType": "cn.wujiangbo.service.websocket.SocketProperties"
+    },
+    {
+      "name": "socketio.boss-count",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.wujiangbo.service.websocket.SocketProperties"
+    },
+    {
+      "name": "socketio.host",
+      "type": "java.lang.String",
+      "sourceType": "cn.wujiangbo.service.websocket.SocketProperties"
+    },
+    {
+      "name": "socketio.ping-interval",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.wujiangbo.service.websocket.SocketProperties"
+    },
+    {
+      "name": "socketio.ping-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.wujiangbo.service.websocket.SocketProperties"
+    },
+    {
+      "name": "socketio.port",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.wujiangbo.service.websocket.SocketProperties"
+    },
+    {
+      "name": "socketio.upgrade-timeout",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.wujiangbo.service.websocket.SocketProperties"
+    },
+    {
+      "name": "socketio.work-count",
+      "type": "java.lang.Integer",
+      "sourceType": "cn.wujiangbo.service.websocket.SocketProperties"
+    }
+  ],
+  "hints": []
+}

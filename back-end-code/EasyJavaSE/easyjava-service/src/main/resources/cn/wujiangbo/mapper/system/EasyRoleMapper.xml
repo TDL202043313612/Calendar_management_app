@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.wujiangbo.mapper.system.EasyRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="cn.wujiangbo.domain.system.EasyRole">
+        <id column="id" property="id"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_key" property="roleKey"/>
+        <result column="role_sort" property="roleSort"/>
+        <result column="data_scope" property="dataScope"/>
+        <result column="menu_check_strictly" property="menuCheckStrictly"/>
+        <result column="dept_check_strictly" property="deptCheckStrictly"/>
+        <result column="status" property="status"/>
+        <result column="del_flag" property="delFlag"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="remark" property="remark"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, role_name, role_key, role_sort, data_scope, menu_check_strictly, dept_check_strictly, status, del_flag, create_user_id, create_time, update_user_id, update_time, remark
+    </sql>
+
+    <sql id="selectRoleVo">
+        select distinct r.id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.menu_check_strictly, r.dept_check_strictly,
+                        r.status, r.del_flag, r.create_time, r.remark
+        from easy_role r
+                 left join easy_user_role ur on ur.role_id = r.id
+                 left join easy_user u on u.id = ur.user_id
+                 left join easy_dept d on u.dept_id = d.id
+    </sql>
+
+    <insert id="batchRoleMenu">
+        insert into easy_role_menu(role_id, menu_id) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            (#{item.roleId}, #{item.menuId})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoleMenuByRoleId">
+        delete from easy_role_menu where role_id = #{roleId}
+    </delete>
+
+    <delete id="deleteRoleMenu">
+        delete from easy_role_menu where role_id in
+        <foreach collection="array" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteRoleByIds">
+        update easy_role set del_flag = '2' where id in
+        <foreach collection="array" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </delete>
+
+    <select id="checkRoleNameUnique" resultType="cn.wujiangbo.domain.system.EasyRole">
+        <include refid="selectRoleVo"/>
+        where r.role_name = #{roleName} limit 1
+    </select>
+
+    <select id="selectMyPage" resultType="cn.wujiangbo.domain.system.EasyRole">
+        select
+        t1.*,
+        t2.nick_name as updateUserName,
+        t3.nick_name as createUserName
+        from easy_role t1
+        left join easy_user t2 on t1.update_user_id = t2.id
+        left join easy_user t3 on t1.create_user_id = t3.id
+        where t1.del_flag = '0'
+        <if test="param.roleName != null and param.roleName != ''">
+            AND t1.role_name like concat('%', #{param.roleName}, '%')
+        </if>
+        <if test="param.status != null and param.status != ''">
+            AND t1.status = #{param.status}
+        </if>
+        <if test="param.beginTime != null and param.beginTime != '' ">
+            and t1.create_time &gt;= #{param.beginTime}
+        </if>
+        <if test="param.endTime != null and param.endTime != '' ">
+            and t1.create_time &lt;= #{param.endTime}
+        </if>
+        order by t1.role_sort asc
+    </select>
+
+    <select id="selectRoleAll" resultType="cn.wujiangbo.domain.system.EasyRole">
+        select
+            t1.*,
+            t2.nick_name as createUserName,
+            t3.nick_name as updateUserName
+        from easy_role t1
+             left join easy_user t2 on t1.create_user_id = t2.id
+             left join easy_user t3 on t1.create_user_id = t3.id
+        where t1.del_flag = '0'
+        order by t1.role_sort
+    </select>
+
+    <select id="selectRoleById" resultType="cn.wujiangbo.domain.system.EasyRole">
+        select distinct r.id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.menu_check_strictly, r.dept_check_strictly,
+                        r.status, r.del_flag, r.create_time, r.remark
+        from easy_role r
+                 left join easy_user_role ur on ur.role_id = r.id
+                 left join easy_user u on u.id = ur.user_id
+                 left join easy_dept d on u.dept_id = d.id
+        where r.id = #{roleId}
+    </select>
+    <select id="selectRolePermissionByUserId" resultType="cn.wujiangbo.domain.system.EasyRole"
+            parameterType="java.lang.Long">
+        select distinct r.id, r.role_name, r.role_key, r.role_sort, r.data_scope, r.menu_check_strictly, r.dept_check_strictly,
+                        r.status, r.del_flag, r.create_time, r.remark
+        from easy_role r
+                 left join easy_user_role ur on ur.role_id = r.id
+                 left join easy_user u on u.id = ur.user_id
+                 left join easy_dept d on u.dept_id = d.id
+        WHERE r.del_flag = '0' and ur.user_id = #{userId}
+    </select>
+    <select id="selectRolesByUserId" resultType="cn.wujiangbo.domain.system.EasyRole" parameterType="java.lang.Long">
+        <include refid="selectRoleVo"/>
+        WHERE r.del_flag = '0' and u.id = #{userName}
+    </select>
+</mapper>
